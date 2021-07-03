@@ -20,8 +20,10 @@ const todoButton = document.querySelector('.add_todo_btn');
 const todoList = document.querySelector('.todo_list');
 const todoCategory = document.querySelector('.category_list');
 const todoDates = document.querySelector('.add_todo_dates');
+
 //event listeners
 todoButton.addEventListener('click', addItem);
+todoList.addEventListener('click', deleteCheck);
 //functions
 function addItem(event) {
     //prevent from submitting
@@ -51,7 +53,14 @@ function addItem(event) {
     deleteButton.innerHTML = '<i class="fas fa-trash"></i>'
     deleteButton.classList.add('delete-btn')
     newTodo.appendChild(deleteButton)
+    //append to list
     todoList.appendChild(todoDiv)
+    const todos = todoList.childNodes;
+    console.log(todos)
+    //clear input values
+    todoName.value =""
+    todoContent.value =""
+    todoDates.value =""
 }
 function getSelectedValue() {
     let selectedValue = document.querySelector(".category_list").value
@@ -67,4 +76,12 @@ function setIcon(value) {
 function checkNull(value) {
     if(!value) return 'None';
     else return value;
+}
+function deleteCheck(e) {
+    const item = e.target;
+    //delete
+    if(item.classList[0]==='delete-btn'){
+        const todo = item.parentElement;
+        todo.remove();
+    }
 }

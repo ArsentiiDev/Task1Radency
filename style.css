@@ -2,6 +2,12 @@
     margin:0;
     padding:0;
 }
+body {
+    background: #4DA0B0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #D39D38, #4DA0B0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #D39D38, #4DA0B0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
 .main_container {
     width:80vw;
     margin:auto;
@@ -27,8 +33,9 @@
 .header_container_nav {
     display:grid;
     grid-column:5px;
-    grid-template-columns: 15vw 15vw 15vw 15vw 15vw 3vw 3vw;
+    grid-template-columns: 15vw 15vw 15vw 15vw 14vw 3vw 3vw;
     column-rule: 1px;
+    text-align:center;
 }
 .add_todo {
     display:flex;
@@ -73,12 +80,12 @@
 .list_item_li {
     display:flex;
     background-color:burlywood;
-    padding:5px;
+    padding:6px;
     border-radius: 5px;
 }
 .list_item_li button {
     margin-right: 20px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     background:burlywood;
     border:none;
     flex:1;
@@ -96,4 +103,29 @@
     grid-column: 5px;
     grid-template-columns: 15vw 15vw 15vw 14vw 14vw;
     list-style: none;
+    text-align: center;
+}
+.list_item_li form i {
+    font-size: 1rem;
+    padding:8px;
+    color:white;
+    border-radius:100%;
+    background-color: rgb(92, 70, 42);
+    margin-right:10px;
+}
+.summary_nav {
+    grid-template-columns: 30vw 15vw 15vw ;
+}
+.fa-trash,
+.fa-archive,
+.fa-pencil-alt {
+    pointer-events: none;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline:none;
+    box-shadow: none;
+    cursor: pointer;
 }
