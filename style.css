@@ -129,3 +129,11 @@ select {
     box-shadow: none;
     cursor: pointer;
 }
+.edit_input {
+    font-family:Arial, Helvetica, sans-serif;
+    width:120px;
+    margin-right: 20px;
+    background-color:rgb(255, 237, 214);
+    border: 1px solid rgb(180, 179, 179);
+    border-radius: 3px;
+}

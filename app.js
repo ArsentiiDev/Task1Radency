@@ -35,7 +35,7 @@ function addItem(event) {
     let dates = (todoDates.value).split(',')
     console.log(todoContent.value)
     /*newTodo.innerHTML='<form>'+'<div class="todoNameIcon">'+setIcon(todoCategory.value)+checkNull(todoName.value)+'</div>'+'<span class="todo_list_date">'+months[date.getMonth()]+' '+date.getDay()+','+date.getFullYear()+'</span>'+'<span class="todo_item_category">'+todoCategory.value+'</span>'+'<span class="todo_item_content">'+checkNull(todoContent.value)+'</span>'+'<span class="todo_list_dates>'+dates+'</span></form>';*/
-    newTodo.innerHTML='<form>'+'<span>'+setIcon(todoCategory.value)+checkNull(todoName.value)+'</span>'+'<span>'+months[date.getMonth()]+' '+date.getDay()+','+date.getFullYear()+'</span>'+'<span>'+todoCategory.value+'</span>'+'<span>'+checkNull(todoContent.value)+'</span>'+'<span>'+dates+'</span>'+'</form>';
+    newTodo.innerHTML='<form>'+'<span>'+setIcon(todoCategory.value)+checkNull(todoName.value)+'</span>'+'<p>'+months[date.getMonth()]+' '+date.getDay()+','+date.getFullYear()+'</p>'+'<span>'+todoCategory.value+'</span>'+'<span>'+checkNull(todoContent.value)+'</span>'+'<span>'+dates+'</span>'+'</form>';
     newTodo.classList.add('list_item_li')
     todoDiv.appendChild(newTodo);
     //edit button
@@ -80,8 +80,43 @@ function checkNull(value) {
 function deleteCheck(e) {
     const item = e.target;
     //delete
+    const todo = item.parentElement;
     if(item.classList[0]==='delete-btn'){
-        const todo = item.parentElement;
         todo.remove();
+    } else if(item.classList[0]==='edit-btn'){
+        const form = todo.firstElementChild;
+        const spanName = form.firstElementChild;
+        const spans = form.childNodes;
+        console.log(spans)
+        spans.forEach(function(currentValue,currentIndex,listObj){
+            if(currentIndex==1) ++currentIndex;
+            if(currentIndex==2){
+                const select = document.createElement('select');
+                let firstOption = new Option('Random Thought','random thought');
+                let secondOption = new Option("Idea","idea");
+                let thirdOption = new Option('Task','task');
+                let forthOption = new Option('Quote','quote');
+                let options = [firstOption,secondOption,thirdOption,forthOption];
+                for(let i=0; i<4; i++){
+                select.options[select.options.length]=options[i];
+                }
+                form.insertBefore(select,spans[currentIndex]);
+                form.removeChild(spans[++currentIndex]);
+            }
+            const input = document.createElement('input');
+            input.type = "text";
+            console.log(currentIndex);
+            input.value=spans[currentIndex].textContent;
+            input.classList.add('edit_input')
+            console.log(spans);
+            form.insertBefore(input,spans[currentIndex]);
+            form.removeChild(spans[++currentIndex])
+        })
+           
+            const submitBtn = item.firstChild;
+            submitBtn.classList.toggle('fa-pencil-alt');
+            submitBtn.classList.toggle('fa-check');
+            item.classList.toggle('edit-btn');
+            item.classList.toggle('submit-btn');
     }
 }
