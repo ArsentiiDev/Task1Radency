@@ -11,22 +11,24 @@
 <body>
     <div class="main_container">
         <form class="add_todo">
-            <p>Input name:</p>
-            <input type="text" class="add_todo_name">
-            <p>Choose category:</p>
+            <h2>Add Task</h2>
+            <input type="text" placeholder="name of task" class="add_todo_name">
             <div class="custom-select">
                 <select  class="category_list add_todo_category" onchange="getSelectedValue()">
+                    <option value="none">Select:</option>
                     <option value="task">Task</option>
                     <option value="random thought">Random Thought</option>
                     <option value="idea">Idea</option>
                     <option value="qoute">Qoute</option>
                 </select>
             </div>
-            <p>Include content:</p>
-            <input type="text" class="add_todo_content">
-            <p>When?:</p>
+            <div>
+            <input type="text" placeholder="add content" class="add_todo_content">
+            </div>
             <input type="text" placeholder="yy-mm-dd" class="add_todo_dates">
+            <div>
             <button class="add_todo_btn">ADD NOTE</button>
+            </div>
         </form>
         <div class="header_container">
             <div class="header_container_nav">
