@@ -118,7 +118,8 @@ body {
 }
 .fa-trash,
 .fa-archive,
-.fa-pencil-alt {
+.fa-pencil-alt,
+.fa-check {
     pointer-events: none;
 }
 select {
