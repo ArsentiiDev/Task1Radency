@@ -22,10 +22,78 @@
     align-items: center;
     border-radius: 5px;
     padding:5px;
+    margin-top: 3vh;
 }
 .header_container_nav {
     display:grid;
     grid-column:5px;
     grid-template-columns: 15vw 15vw 15vw 15vw 15vw 3vw 3vw;
     column-rule: 1px;
+}
+.add_todo {
+    display:flex;
+    align-items: center;
+    background-color:bisque;
+    border-radius: 5px;
+    margin-top: 0.2vh;
+    padding:5px;
+}
+.add_todo input,select {
+    font-family:Arial, Helvetica, sans-serif;
+    width:120px;
+    margin-right: 20px;
+    background-color:rgb(255, 237, 214);
+    border: 1px solid rgb(180, 179, 179);
+    border-radius: 3px;
+}
+.add_todo p{
+    font-family:Arial, Helvetica, sans-serif;
+    margin-right: 5px;
+}
+.add_todo button {
+    width:7vw;
+    border-radius: 5px;
+    font-weight: 700;
+    margin:auto;
+    padding: 0.5rem;
+    border:none;
+    cursor:pointer;
+    color:black;
+    background: rgb(250, 192, 121);
+    transition: all 0.3s ease;
+}
+.add_todo button:hover {
+        background:#3c1053;
+        color:white;
+}
+.list_item_div {
+    width:80vw;
+    margin-top:1vh;
+}
+.list_item_li {
+    display:flex;
+    background-color:burlywood;
+    padding:5px;
+    border-radius: 5px;
+}
+.list_item_li button {
+    margin-right: 20px;
+    font-size: 1rem;
+    background:burlywood;
+    border:none;
+    flex:1;
+    cursor:pointer;
+    color:black;
+    transition: all 0.3s ease;
+}
+.list_item_li button:hover {
+    color:white;
+
+}
+.list_item_li form {
+    display:grid;
+    font-size: 1.1rem;
+    grid-column: 5px;
+    grid-template-columns: 15vw 15vw 15vw 14vw 14vw;
+    list-style: none;
 }

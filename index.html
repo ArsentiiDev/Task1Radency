@@ -10,6 +10,24 @@
 </head>
 <body>
     <div class="main_container">
+        <form class="add_todo">
+            <p>Input name:</p>
+            <input type="text" class="add_todo_name">
+            <p>Choose category:</p>
+            <div class="custom-select">
+                <select class="category_list add_todo_category" onchange="getSelectedValue()">
+                    <option value="task">Task</option>
+                    <option value="random thought">Random Thought</option>
+                    <option value="idea">Idea</option>
+                    <option value="qoute">Qoute</option>
+                </select>
+            </div>
+            <p>Include content:</p>
+            <input type="text" class="add_todo_content">
+            <p>Add dates:</p>
+            <input type="text" placeholder="yy-mm-dd" class="add_todo_dates">
+            <button class="add_todo_btn">ADD NOTE</button>
+        </form>
         <div class="header_container">
             <div class="header_container_nav">
             <h3>Name</h3>
@@ -21,17 +39,19 @@
             <i class="fas fa-trash"></i>
             </div>
         </div>
+        <div class="todo_container">
+            <ul class="todo_list">
+                
+            </ul>
+
+        </div>
     </div>
     <div class="summary_container">
         <div class="header_container">
             <div class="header_container_nav">
-            <h3>Name</h3>
-            <h3>Created</h3>
-            <h3>Category</h3>
-            <h3>Content</h3>
-            <h3>Dates</h3>
-            <i class="fas fa-archive"></i>
-            <i class="fas fa-trash"></i>
+            <h3>Note category</h3>
+            <h3>Active</h3>
+            <h3>Archived</h3>
             </div>
         </div>
     </div>
