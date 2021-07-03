@@ -1,0 +1,31 @@
+* {
+    margin:0;
+    padding:0;
+}
+.main_container {
+    width:80vw;
+    margin:auto;
+    min-height:60vh;  
+    padding:10px;
+}
+.summary_container {
+    width:80vw;
+    margin:auto;
+    margin-top: 3vh;
+    padding:10px;
+}
+.header_container {
+    background-color:rgb(81, 97, 97);
+    color:rgb(228, 226, 226);
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    border-radius: 5px;
+    padding:5px;
+}
+.header_container_nav {
+    display:grid;
+    grid-column:5px;
+    grid-template-columns: 15vw 15vw 15vw 15vw 15vw 3vw 3vw;
+    column-rule: 1px;
+}
