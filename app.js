@@ -15,6 +15,7 @@ const months = [
 ];
 let activeCount = 0;
 let archiveCount =0;
+const categories = {};
 //selectors
 const todoName = document.querySelector('.add_todo_name');
 const todoContent = document.querySelector('.add_todo_content');
@@ -23,6 +24,8 @@ const todoList = document.querySelector('.todo_list');
 const todoCategory = document.querySelector('.category_list');
 const todoDates = document.querySelector('.add_todo_dates');
 const SumList = document.querySelector('.summary_list');
+const sumLi = document.querySelector('.summary_list_li');
+let categoryCount = 0;
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos);
@@ -31,6 +34,7 @@ todoList.addEventListener('click', deleteEditArchive);
 //functions
 function addItem(event) {
     //prevent from submitting
+    let index = -1;
     activeCount++;
     event.preventDefault()
     const todoDiv = document.createElement('div');
@@ -48,7 +52,21 @@ function addItem(event) {
     //add toDo to local storage
     saveLocal(todoName.value,creationDate,todoCategory.value,todoContent.value,dates);
     //create summary list
-    addSumList(activeCount,archiveCount);
+    if(todoCategory.value in categories){
+        categories[todoCategory.value]=++categoryCount;
+        let category = SumList.getElementsByClassName(`${todoCategory.value}`)[0];
+        console.log(category);
+        let count = category.getElementsByClassName('count')[0];
+        count.innerText = categoryCount;
+    }
+    else {
+        categoryCount = 0;
+        categories[todoCategory.value]=++categoryCount;
+        addSumLi(todoCategory.value);
+        
+    }
+    console.log(categories);
+    //addSumList(categoryCount,index);
     //addSumList();
     //edit button
     const editButton = document.createElement('button');
@@ -73,17 +91,18 @@ function addItem(event) {
     todoContent.value =""
     todoDates.value =""
 }
-function addSumList(active,archive) {
-    
-    const todoDiv = document.createElement('div');
-    todoDiv.classList.add('summary_list_div')
-    const newTodo = document.createElement('li');
-    newTodo.innerHTML=`<form><span>${setIcon(todoCategory.value)} ${todoCategory.value}</span><span>${active}</span><span>${archive}</span></form>`;
-    newTodo.classList.add('summary_list_li')
-    todoDiv.appendChild(newTodo);
-    console.log(todoDiv);
-    SumList.appendChild(todoDiv);
+function addSumLi(category){
+    const sumTodoDiv = document.createElement('div');
+    sumTodoDiv.classList.add('summary_list_div')
+    const sumNewTodo = document.createElement('li');
+    console.log(categories[todoCategory.value]);
+    sumNewTodo.innerHTML=`<form class="${category}"><span>${setIcon(category)} ${category}</span><span class="count">${1}</span><span>${archiveCount}</span></form>`;
+    sumNewTodo.classList.add('summary_list_li')
+    sumTodoDiv.appendChild(sumNewTodo);
+    SumList.appendChild(sumTodoDiv);
+
 }
+
 function getSelectedValue() {
     let selectedValue = document.querySelector(".category_list").value
     console.log(selectedValue)
@@ -186,7 +205,6 @@ function saveLocal(name,date,category,content,dates){
         todos = JSON.parse(localStorage.getItem('todos'));
     }
     let obj = [name,date,category,content,dates]
-    console.log(obj)
     todos.push(obj);
     localStorage.setItem('todos',JSON.stringify(todos));
 }
@@ -197,6 +215,7 @@ function getTodos() {
     } else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
+    let index = -1;
     todos.forEach(function(todo){
         //div
         activeCount++;
@@ -209,14 +228,26 @@ function getTodos() {
         newTodo.innerHTML='<form>'+'<span>'+setIcon(todo[2])+checkNull(todo[0])+'</span>'+'<span>'+todo[1]+'</span>'+'<span>'+todo[2]+'</span>'+'<span>'+todo[3]+'</span>'+'<span>'+todo[4]+'</span>'+'</form>';
         newTodo.classList.add('list_item_li')
         todoDiv.appendChild(newTodo);
+        
         //create summary list
-        const sumTodoDiv = document.createElement('div');
-        sumTodoDiv.classList.add('summary_list_div')
-        const sumNewTodo = document.createElement('li');
-        sumNewTodo.innerHTML=`<form class="sum_form"><span>${setIcon(todo[2])} ${todo[2]}</span><span>${activeCount}</span><span>${archiveCount}</span></form>`;
-        sumNewTodo.classList.add('summary_list_li')
-        sumTodoDiv.appendChild(sumNewTodo);
-        SumList.appendChild(sumTodoDiv);
+        if(todo[2] in categories){
+            categories[todo[2]]=++categoryCount;
+            let category = SumList.getElementsByClassName(`${todo[2]}`)[0];
+            console.log(category);
+            let count = category.getElementsByClassName('count')[0];
+            count.innerText = categoryCount;
+        }
+        else {
+            categoryCount = 0;
+            categories[todo[2]]=++categoryCount;
+            addSumLi(todo[2]);
+            let category = SumList.getElementsByClassName(`${todo[2]}`)[0];
+            console.log(category);
+            
+        }
+        console.log(categories);
+        //let count = document.querySelector('.count');
+        //count.innerText = 'lol';
         //edit button
         const editButton = document.createElement('button');
         editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>'

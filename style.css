@@ -3,10 +3,7 @@
     padding:0;
 }
 body {
-    background: #4DA0B0;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #D39D38, #4DA0B0);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #D39D38, #4DA0B0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+   background:rgb(0, 0, 0); 
 }
 .main_container {
     width:80vw;
@@ -87,17 +84,18 @@ input::placeholder {
 }
 .list_item_li {
     display:flex;
-    background-color:rgb(82, 132, 146);
+    background-color:rgb(2, 58, 73);
     padding:6px;
+    color:white;
 }
 .list_item_li button {
     margin-right: 20px;
     font-size: 1.1rem;
-    background:rgb(82, 132, 146);
+    background:rgb(2, 58, 73);
     border:none;
     flex:1;
     cursor:pointer;
-    color:black;
+    color:white;
     transition: all 0.3s ease;
 }
 .list_item_li button:hover {
@@ -151,16 +149,17 @@ input::placeholder {
     transition:0.25s;
 }
 .edit_select {
-    background-color:rgb(82, 132, 146);
+    background-color:rgb(2, 58, 73);
 }
 .summary_list_div {
     margin-top:1vh;
 }
 .summary_list_li {
     display:flex;
-    background-color:rgb(82, 132, 146);
+    background-color:rgb(2, 58, 73);
     padding:6px;
     list-style:none;
+    color:white;
 }
 .summary_list_li form {
     font-size: 1.1rem;
