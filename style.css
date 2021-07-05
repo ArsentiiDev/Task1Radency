@@ -168,3 +168,6 @@ input::placeholder {
     grid-template-columns: 30vw 15vw 15vw;
     text-align:center;
 }
+.archive {
+    display:none;
+}

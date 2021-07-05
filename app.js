@@ -13,8 +13,6 @@ const months = [
     'november',
     'december',
 ];
-let activeCount = 0;
-let archiveCount =0;
 const categories = {};
 //selectors
 const todoName = document.querySelector('.add_todo_name');
@@ -26,6 +24,7 @@ const todoDates = document.querySelector('.add_todo_dates');
 const SumList = document.querySelector('.summary_list');
 const sumLi = document.querySelector('.summary_list_li');
 let categoryCount = 0;
+let archiveCount = 0;
 
 //event listeners
 document.addEventListener('DOMContentLoaded',getTodos);
@@ -34,8 +33,6 @@ todoList.addEventListener('click', deleteEditArchive);
 //functions
 function addItem(event) {
     //prevent from submitting
-    let index = -1;
-    activeCount++;
     event.preventDefault()
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('list_item_div')
@@ -96,7 +93,7 @@ function addSumLi(category){
     sumTodoDiv.classList.add('summary_list_div')
     const sumNewTodo = document.createElement('li');
     console.log(categories[todoCategory.value]);
-    sumNewTodo.innerHTML=`<form class="${category}"><span>${setIcon(category)} ${category}</span><span class="count">${1}</span><span>${archiveCount}</span></form>`;
+    sumNewTodo.innerHTML=`<form class="${category}"><span>${setIcon(category)} ${category}</span><span class="count">${1}</span><span class="archiveCount">${0}</span></form>`;
     sumNewTodo.classList.add('summary_list_li')
     sumTodoDiv.appendChild(sumNewTodo);
     SumList.appendChild(sumTodoDiv);
@@ -192,10 +189,27 @@ function deleteEditArchive(e) {
         item.classList.toggle('submit-btn');
         item.classList.toggle('edit-btn');
     } else if (item.classList[0]==='archive-btn'){
-        todo.style.display = "none";
+        const form = todo.firstElementChild;
+        const li = form.parentNode;
+        console.log(li);
+        const categoryName = form.childNodes[2];
+        console.log(categoryName.textContent);
+        li.classList.toggle('archive');
+        //categories[todoCategory.value]=++categoryCount;
+        let sumList = SumList.getElementsByClassName(`${categoryName.textContent}`)[0]
+        let archive = sumList.getElementsByClassName('archiveCount')[0];
+        console.log(archive);
+        archive.innerHTML = ++archive.innerHTML;
+        
+        //console.log(category);
+        //let count = category.getElementsByClassName('count')[0];
+        //count.innerText = categoryCount;
+        //todo.style.display = "none";
     }
 }
+function archive() {
 
+}
 function saveLocal(name,date,category,content,dates){
     //check
     let todos;
@@ -218,7 +232,6 @@ function getTodos() {
     let index = -1;
     todos.forEach(function(todo){
         //div
-        activeCount++;
         const todoDiv = document.createElement('div');
         todoDiv.classList.add('list_item_div')
         //create todoList
@@ -243,7 +256,7 @@ function getTodos() {
             addSumLi(todo[2]);
             let category = SumList.getElementsByClassName(`${todo[2]}`)[0];
             console.log(category);
-            
+
         }
         console.log(categories);
         //let count = document.querySelector('.count');
@@ -275,15 +288,14 @@ function removeLocalTodos(todo) {
     } else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
-    const todoIndex = todo.innerText[0];
-    console.log(todo.innerText);
-    console.log(todoIndex);
+    const todoIndex = ((todo.firstChild).firstChild).innerText;
     for(let i=0; i<todos.length;i++){
         if(todos[i][0]==todoIndex){
             todos.splice(i,1);
+            console.log(todos[i][0]);
+           
             break;
         }
     }
-    console.log(todos);
     localStorage.setItem('todos', JSON.stringify(todos));
 }
