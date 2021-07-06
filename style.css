@@ -23,7 +23,8 @@ body {
     display:flex;
     justify-content:space-between;
     align-items: center;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding:5px;
     margin-top: 3vh;
 }
@@ -47,7 +48,7 @@ body {
     font-weight: 500;
     color:white;
 }
-.add_todo input,select {
+.add_todo input {
     width:150px;
     margin: 5px auto;
     background:none;
@@ -61,18 +62,65 @@ body {
 input::placeholder {
     color:white;
 }
-
+.category_list {
+    width:150px;
+    margin: 5px auto;
+    background:none;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align:center;
+    padding: 14px 10px;
+    color:white;
+    transition:0.25s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline:none;
+    box-shadow: none;
+    cursor: pointer;
+    background:rgb(2, 58, 73);
+    width:174px;
+}
 .add_todo button {
     width:174px;
     border-radius: 10px;
     font-weight: 700;
-    margin:auto;
+    margin:5px auto;
     padding: 14px 10px;
     border: 2px solid black;
     cursor:pointer;
     color:white;
     background: rgb(2, 58, 73);
     transition: all 0.3s ease;
+}
+.filter_todo {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline:none;
+    border:none;
+    box-shadow: none;
+    cursor: pointer;
+}
+.select_items {
+    margin:10px;
+    position:relative;
+    overflow:hidden;
+}
+.filter_todo {
+    background: rgb(33, 119, 143);
+    width:15vw;
+    padding:1rem;
+}
+.select_items::after {
+    content: "\25BC";
+    position: absolute;
+    background:rgb(2, 58, 73);
+    top:0;
+    right:0;
+    padding:1rem;
+    pointer-events: none;
+    color:white;
 }
 .add_todo button:hover {
         background:#3c1053;
@@ -118,6 +166,9 @@ input::placeholder {
     background-color: rgb(2, 58, 73);
     margin-right:10px;
 }
+.list_item_li span {
+    word-wrap:break-word;
+}
 .summary_nav {
     grid-template-columns: 30vw 15vw 15vw ;
 }
@@ -127,15 +178,13 @@ input::placeholder {
 .fa-check {
     pointer-events: none;
 }
-.add_todo select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline:none;
-    box-shadow: none;
-    cursor: pointer;
-    background:rgb(2, 58, 73);
-    width:174px;
+
+.select_items::afer {
+    content: "\25BC";
+    position:absolute;
+    background:white;
+    top:0;
+    right:0;
 }
 .edit_input  {
     width:100px;
@@ -170,4 +219,6 @@ input::placeholder {
 }
 .archive {
     display:none;
+    text-decoration: line-through;
+    opacity:0.5;
 }

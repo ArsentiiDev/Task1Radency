@@ -14,6 +14,7 @@ const months = [
     'december',
 ];
 const categories = {};
+let archives = {};
 //selectors
 const todoName = document.querySelector('.add_todo_name');
 const todoContent = document.querySelector('.add_todo_content');
@@ -23,6 +24,7 @@ const todoCategory = document.querySelector('.category_list');
 const todoDates = document.querySelector('.add_todo_dates');
 const SumList = document.querySelector('.summary_list');
 const sumLi = document.querySelector('.summary_list_li');
+const filterOption = document.querySelector('.filter_todo')
 let categoryCount = 0;
 let archiveCount = 0;
 
@@ -30,6 +32,7 @@ let archiveCount = 0;
 document.addEventListener('DOMContentLoaded',getTodos);
 todoButton.addEventListener('click', addItem);
 todoList.addEventListener('click', deleteEditArchive);
+filterOption.addEventListener('click',filterTodo)
 //functions
 function addItem(event) {
     //prevent from submitting
@@ -47,12 +50,16 @@ function addItem(event) {
     newTodo.classList.add('list_item_li')
     todoDiv.appendChild(newTodo);
     //add toDo to local storage
-    saveLocal(todoName.value,creationDate,todoCategory.value,todoContent.value,dates);
+    saveLocal(todoName.value,creationDate,todoCategory.value,todoContent.value,dates,);
     //create summary list
+    if(SumList.getElementsByClassName(`${todoCategory.value}`)[0]){
+      let count = (SumList.getElementsByClassName(`${todoCategory.value}`)[0]).getElementsByClassName('count')[0];
+        count.innerText=+(count.innerText)+1;
+    }
+    else{
     if(todoCategory.value in categories){
         categories[todoCategory.value]=++categoryCount;
         let category = SumList.getElementsByClassName(`${todoCategory.value}`)[0];
-        console.log(category);
         let count = category.getElementsByClassName('count')[0];
         count.innerText = categoryCount;
     }
@@ -62,9 +69,8 @@ function addItem(event) {
         addSumLi(todoCategory.value);
         
     }
+}
     console.log(categories);
-    //addSumList(categoryCount,index);
-    //addSumList();
     //edit button
     const editButton = document.createElement('button');
     editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>'
@@ -189,26 +195,31 @@ function deleteEditArchive(e) {
         item.classList.toggle('submit-btn');
         item.classList.toggle('edit-btn');
     } else if (item.classList[0]==='archive-btn'){
+        removeLocalTodos(todo);
         const form = todo.firstElementChild;
         const li = form.parentNode;
-        console.log(li);
+        const div = li.parentNode;
+        div.classList.add("archive");
         const categoryName = form.childNodes[2];
-        console.log(categoryName.textContent);
-        li.classList.toggle('archive');
         //categories[todoCategory.value]=++categoryCount;
         let sumList = SumList.getElementsByClassName(`${categoryName.textContent}`)[0]
         let archive = sumList.getElementsByClassName('archiveCount')[0];
+        let count = sumList.getElementsByClassName('count')[0];
+        count.innerHTML= count.innerHTML-1;
         console.log(archive);
         archive.innerHTML = ++archive.innerHTML;
-        
-        //console.log(category);
-        //let count = category.getElementsByClassName('count')[0];
-        //count.innerText = categoryCount;
-        //todo.style.display = "none";
+        archives[categoryName.textContent]=archive.innerHTML;
+        console.log(archives);
+        localStorage.setItem('archives',JSON.stringify(archives));  
+        const submitBtn = item.firstChild;
+        item.classList.toggle('archive-btn');
+        item.classList.toggle('unarchive-btn'); 
+    }else if (item.classList[0]==='unarchive-btn'){
+        const form = todo.firstElementChild;
+        const li = form.parentNode;
+        const div = li.parentNode;
+        div.classList.toggle('archive');
     }
-}
-function archive() {
-
 }
 function saveLocal(name,date,category,content,dates){
     //check
@@ -218,7 +229,7 @@ function saveLocal(name,date,category,content,dates){
     } else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
-    let obj = [name,date,category,content,dates]
+    let obj = [name,date,category,content,dates];
     todos.push(obj);
     localStorage.setItem('todos',JSON.stringify(todos));
 }
@@ -229,8 +240,9 @@ function getTodos() {
     } else{
         todos = JSON.parse(localStorage.getItem('todos'));
     }
-    let index = -1;
+    let archivesobj = JSON.parse(localStorage.getItem('archives'))
     todos.forEach(function(todo){
+        console.log(todo.parentNode);
         //div
         const todoDiv = document.createElement('div');
         todoDiv.classList.add('list_item_div')
@@ -246,7 +258,6 @@ function getTodos() {
         if(todo[2] in categories){
             categories[todo[2]]=++categoryCount;
             let category = SumList.getElementsByClassName(`${todo[2]}`)[0];
-            console.log(category);
             let count = category.getElementsByClassName('count')[0];
             count.innerText = categoryCount;
         }
@@ -254,8 +265,6 @@ function getTodos() {
             categoryCount = 0;
             categories[todo[2]]=++categoryCount;
             addSumLi(todo[2]);
-            let category = SumList.getElementsByClassName(`${todo[2]}`)[0];
-            console.log(category);
 
         }
         console.log(categories);
@@ -279,7 +288,30 @@ function getTodos() {
         //append to list
         todoList.appendChild(todoDiv)
         const todos = todoList.childNodes; 
+        let sumList = SumList.getElementsByClassName(`${todo[2]}`)[0]
+        let archive = sumList.getElementsByClassName('archiveCount')[0];
+        console.log(categories);
+        
     })
+    for(archive in archivesobj){
+        if(archive in categories){
+        let archiveLi = SumList.getElementsByClassName(`${archive}`)[0];
+        let archiveSpan = archiveLi.getElementsByClassName('archiveCount')[0];
+        archiveSpan.innerHTML = archivesobj[archive];
+        } else{
+        addSumLi(archive);
+        let archiveLi = SumList.getElementsByClassName(`${archive}`)[0];
+        let count = archiveLi.getElementsByClassName('count')[0];
+        let archiveSpan = archiveLi.getElementsByClassName('archiveCount')[0];
+        archiveSpan.innerHTML = archivesobj[archive];
+        count.innerHTML=0;
+        }
+    }
+    console.log(archivesobj);
+    const smth = SumList.getElementsByTagName("form");
+     
+    
+
 }
 function removeLocalTodos(todo) {
     let todos;
@@ -289,13 +321,43 @@ function removeLocalTodos(todo) {
         todos = JSON.parse(localStorage.getItem('todos'));
     }
     const todoIndex = ((todo.firstChild).firstChild).innerText;
+    console.log(todoIndex);
+    console.log(todos);
     for(let i=0; i<todos.length;i++){
-        if(todos[i][0]==todoIndex){
+        if(todos[i][0]==todoIndex || todos[i][0]==""){
             todos.splice(i,1);
-            console.log(todos[i][0]);
-           
             break;
         }
     }
     localStorage.setItem('todos', JSON.stringify(todos));
+}
+function filterTodo(e) {
+    const todos = todoList.childNodes;
+        for(let i = 1; i<todos.length;i++){
+        switch(e.target.value){
+            case "all":
+                {todos[i].style.display="list-item";
+                break;
+        }
+            case "archive":{
+                if(todos[i].classList.contains("archive")){
+                    todos[i].style.display="list-item";
+                    console.log(todos[i]);
+                } else {
+                    todos[i].style.display="none";
+                 
+                }
+              break;  
+            }
+            case "not_archive":{
+                if(todos[i].classList.contains("archive")){
+                    todos[i].style.display="none";
+                }  else {
+                    todos[i].style.display="list-item";
+                 
+                }
+                break;
+            }
+        }
+    }
 }
